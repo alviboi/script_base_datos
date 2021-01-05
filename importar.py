@@ -6,17 +6,17 @@ sql_columns = "SHOW columns FROM horarios Where FIELD like 'TxtM%' OR FIELD LIKE
 sql_agafa_dia_setmana = (
     "SELECT * FROM `horarios` WHERE {0} LIKE '%{1}%' and NidAnyo>2019")
 sql_insertar_dia = (
-    "INSERT INTO `cefire` (`id_a`, `data`, `inici`, `fi`, `id`) VALUES ('{0}', '{1}', '{2}', '{3}', NULL) ")
+    "INSERT INTO `cefire` (`user_id`, `data`, `inici`, `fi`, `id`) VALUES ('{0}', '{1}', '{2}', '{3}', NULL) ")
 sql_insertar_curs = (
-    "INSERT INTO `curs` (`id_a`, `data`, `inici`, `fi`, `curs`, `id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', NULL) ")
+    "INSERT INTO `curs` (`user_id`, `data`, `inici`, `fi`, `curs`, `id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', NULL) ")
 sql_insertar_guardia = (
-    "INSERT INTO `guardia` (`id_a`, `data`, `inici`, `fi`, `id`) VALUES ('{0}', '{1}', '{2}', '{3}', NULL) ")
+    "INSERT INTO `guardia` (`user_id`, `data`, `inici`, `fi`, `id`) VALUES ('{0}', '{1}', '{2}', '{3}', NULL) ")
 sql_insertar_permis = (
-    "INSERT INTO `permis` (`id_a`, `data`, `inici`, `fi`, `motiu`, `arxiu`,`id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '', NULL) ")
+    "INSERT INTO `permis` (`user_id`, `data`, `inici`, `fi`, `motiu`, `arxiu`,`id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', NULL) ")
 sql_insertar_compensa = (
-    "INSERT INTO `compensa` (`id_a`, `data`, `inici`, `fi`, `motiu`,`id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', NULL) ")
+    "INSERT INTO `compensa` (`user_id`, `data`, `inici`, `fi`, `motiu`,`id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', NULL) ")
 sql_insertar_visita = (
-    "INSERT INTO `visita` (`id_a`, `data`, `inici`, `fi`, `centre`,`id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', NULL) ")
+    "INSERT INTO `visita` (`user_id`, `data`, `inici`, `fi`, `centre`,`id`) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', NULL) ")
 
 
 prova_db = mysql.connector.connect(
@@ -31,7 +31,7 @@ cefire_db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="root",
-    database="cefire_valencia",
+    database="cefire_valencia2",
     charset='utf8'
 )
 
@@ -73,6 +73,29 @@ def extraer_visita_hasta_final(cadena,inici):
         indice_f = cadena.index("CEFIRE")
         subcadena=subcadena[:indice_f]
     return subcadena
+
+
+
+def extraer_cadena_hasta_final_perm(cadena,inici):
+    print("----------------------------------------")
+    print(cadena)
+    cadena = cadena.upper()
+    indice_c = cadena.index(inici)
+    indice_f = cadena.find('(');
+    subcadena = cadena[indice_c:indice_f]
+    return subcadena
+
+def extraer_archivo_perm(cadena):
+    print("----------------------------------------")
+    print(cadena)
+    indice_c = cadena.find('(');
+    indice_f = cadena.find(')');
+    subcadena = cadena[(indice_c+1):indice_f]
+    if (subcadena[-3:].lower() == "pdf" or subcadena[-4:].lower() == "jpeg" or subcadena[-3:].lower() == "odt" or subcadena[-3:].lower() == "jpg" or subcadena[-3:].lower() == "png" or subcadena[-3:].lower() == "txt"):
+        return subcadena
+    else:
+        return "";
+
 
 
 r2 = data_desde_w_d(2020, 10, 1, 14, 00)
@@ -186,8 +209,9 @@ for x in myresult_prova:
 
     for y in myresult_prova_permis:
         print(y)        
-        mycursor_cefire.execute(sql_insertar_permis.format(y[0], data_desde_w_d(y[2], y[1], dia, hora_inici, 0), str(hora_inici)+":00:00", str(hora_fi)+":00:00",extraer_cadena_hasta_final(y[pos],"PERM")))
-    
+        mycursor_cefire.execute(sql_insertar_permis.format(y[0], data_desde_w_d(y[2], y[1], dia, hora_inici, 0), str(hora_inici)+":00:00", str(hora_fi)+":00:00",extraer_cadena_hasta_final_perm(y[pos],"PERM"),extraer_archivo_perm(y[pos])))
+        
+        
     mycursor_prova.execute(sql_agafa_dia_setmana.format(x[0],"COMPEN"))
     myresult_prova_compensa = mycursor_prova.fetchall()
 
