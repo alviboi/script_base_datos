@@ -31,7 +31,7 @@ cefire_db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="root",
-    database="cefire_valencia2",
+    database="cefire_valencia",
     charset='utf8'
 )
 
@@ -51,7 +51,7 @@ cefire_db = mysql.connector.connect(
 
 
 def data_desde_w_d(y, w, d, h, m):
-    return datetime.datetime.strptime(str(y)+'-'+str(w)+'-'+str(d)+'-'+str(h)+'-'+str(m), "%Y-%W-%w-%H-%M")
+    return datetime.datetime.strptime(str(y)+'-'+str(w-1)+'-'+str(d)+'-'+str(h)+'-'+str(m), "%Y-%W-%w-%H-%M")
 
 def extraer_cadena_hasta_final(cadena,inici):
     print("----------------------------------------")
@@ -195,7 +195,7 @@ for x in myresult_prova:
 
     for y in myresult_prova_curs:
         print(y)
-        mycursor_cefire.execute(sql_insertar_curs.format(y[0], data_desde_w_d(y[2], y[1], dia, hora_inici, 0), str(hora_inici)+":00:00", str(hora_fi)+":00:00", ""))
+        mycursor_cefire.execute(sql_insertar_curs.format(y[0], data_desde_w_d(y[2], y[1], dia, hora_inici, 0), str(hora_inici)+":00:00", str(hora_fi)+":00:00", extraer_visita_hasta_final(y[pos],"CURS").replace("\'","\\\'")))
     
     mycursor_prova.execute(sql_agafa_dia_setmana.format(x[0],"GUARDIA"))
     myresult_prova_guardia = mycursor_prova.fetchall()
