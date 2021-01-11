@@ -26,7 +26,11 @@ pandoc-latex-environment:
 
 <!-- \awesomebox[violet]{2pt}{\faRocket}{violet}{Lorem ipsum…} -->
 
-# Index {pdf:type=index}
+\newpage
+\vspace*{\fill}
+![Esquema de la xarxa del cefire](img/cc.png)
+Aquest treball així com el codi que apareix en ell està subjecte a una llicència creative commons que permet la seua difusió ús comercial reconeguent sempre l'autoria del seu creador.
+\newpage
 
 
 # Introducció
@@ -76,6 +80,14 @@ Per tant aquest projecte pretendrà assolir els següents objectius:
 * Creació de la nova plataforma de fitxatges.
 
 Alguns dels objectius que es presenten en aquest projecte han de realitzar-se amb la major brevetat possible, ja que es necessari que estiguen disponibles ràpidament.
+
+:::important
+És important tenir en compte el lloc on es va a utilitzar el projecte. El disseny del mateix s'ha plantejat en funció del lloc de treball de l'assessor de cefire que disposa d'un Sistema Operatiu amb un LliureX 16 (Ubuntu Xenial) instal·lat com a mínim (normalment porten LliureX 19 (Ubuntu Bionic)). El monitor presenta una resolució de 1920x1080.
+
+Tot i això i donat que encara hi han assessors que utilitzen dos monitors, un d'ells amb una resolució màxima de 1024x768, s'ha tingut en compte que l'aplicació puga adaptar-se a resolucions més baixes sense que els elements queden deformats. Es pot fer la consulta també amb el mòbil però no és usable.
+
+S'utilitzaran elements com desplegables amb hover o drag and drop que no estan habilitats als navegadors dels mòbils.
+:::
 
 # Desenvolupament i planificació
 
@@ -221,6 +233,10 @@ A un disseny més el·laborat que ens dona un major control sobre les dades:
 
 ![Disseny de la base de dades de l'aplicació](img/bd/bd2.png)
 
+:::note
+Per a crear la base de dades s'ha utilitzat la feramenta de php **artisan** migrate de manera que sempre que es fan modificacions sobre alguna taula amb un simple comandament com ***php artisan migrate** queda tot sincronitzat.
+:::
+
 \awesomebox[violet]{2pt}{\faGithub}{violet}{El script és importa.py que es troba al repositori: https://github.com/alviboi/script\_base\_datos }
 
 ## Aspectes tècnics a tindre en compte
@@ -265,11 +281,261 @@ L'aplicació disposarà d'una pàgina d'entrada on es podran accedir a tots els 
 
 ![Pàgina d'entrada](img/entrada.png)
 
-Una vegada dins, ens podem logar i anem a un panell on podrem navegar pels diferents elements:
+Una vegada dins, ens podem logar i anem a un taulell on podrem navegar pels diferents elements:
 
 ![Panell de control](img/panell.png)
 
-Ací
+Es pot navegar pels diferents elements de l'aplicació per la barra lateral. La part més important i per on gira tota l'aplicació és l'apartat horari. 
+
+Cadascun dels elements el·laborats s'han realitzat utilitzant **components** de vue.js excepte la pàgina d'entrada que s'ha utilitzat blade.
+
+\awesomebox[violet]{2pt}{\faGithub}{violet}{El repositori de l'aplicació és: https://github.com/alviboi/projecte\_ceedcv }
+
+El codi principal podem trobar-lo a les següents carpetes:
+
+| Carpeta | Característiques |
+| -- | -- |
+| /cefire/app/models | Model de tables, relacions de la base de dades | 
+| /cefire/app/Http/Controllers | Controladors de les peticions |
+| /cefire/app | Events, jobs, Mail, etc... s'han utilitzat |
+| /cefire/database/migrations | Totes les modificacions de la base de dades |
+| /cefire/resources | Estructura estàtica de l'aplicació |
+| /cefire/routes | Arxius proveïdors de rutes, principalment web.php |
+| /cefire/config | Arxius de configuració per a adequar l'aplicació |
+
+:::info
+S'ha tractat d'utilitzar totes les parts integrades dins de laravel per això s'ha fet ús del OMR eloquent que facilita les peticions a la base de dades i ja porta implementades messures de seguretat per a evitar el sql injection.
+:::
+
+### Element Horari
+
+A l'element horari disposem de tots els dies de la setmana per a poder fitxar:
+
+![Element horari](img/horaris/horarip.png)
+
+Es disposen de dos tipus de configuracions per a poder realitzar el fitxatge:
+
+| Tipus | Característiques |
+| -- | -- |
+| Fitxar per hores | Habilita l'opció de fitxar a l'entrada i eixida |
+| Fitxar per dia | El mateix però només es fitxa la presencialitat |
+
+Quan es fitxa per hores, has de fitxar a l'entrada i a l'eixida, es pot fitxar varies vegades i t'apareix una icona avisant que encara no has fitxat
+
+![Fitxatge per hores](img/horaris/fitdia.png){ height=100px }
+
+Si demanes permís, fas un curs o compenses et demanarà el motiu per a que ho especifiques. Si demanes un permís et demanarà el justificant i el motiu.
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[DiaComponent](https://github.com/alviboi/projecte\_ceedcv/blob/main/cefire/resources/js/components/DiaComponent.vue),
+[FitxarComponent](https://github.com/alviboi/projecte\_ceedcv/blob/main/cefire/resources/js/components/FitxarComponent.vue )
+:::
+
+
+### Avisos
+
+Només entres a l'aplicació al primer lloc on et duu és a l'apartat avisos, que són els avisos que algun assessor ha posat per tal d'informar d'alguna cosa urgent:
+
+![Element horari](img/avisos/1.png)
+
+Aquest element es pot borrar si eres el creador o tens el Perfil d'Administrador.
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Avisos](https://github.com/alviboi/projecte\_ceedcv/tree/main/cefire/resources/js/components/avisos)
+:::
+
+### Busca l'horari de l'assessor
+
+Disposem de l'opció de consultar l'horari d'un assessor per a saber on ha estat o on va a estar en qualsevol moment:
+
+![Busca horari d'assessor](img/horaris_ass/principal.png)
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Avisos](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/HorarisComponent.vue)
+:::
+
+
+### Busca en horaris
+
+Així mateix es pot consultar tots els assessors que compensen o estan realitzant un curs un determinat dia. D'aquesta manera es poden distribuir millor les hores de cadascú dins de la planificació mensual.
+
+![Busca en tots els horaris](img/busca_horaris/principal.png)
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Avisos](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/BuscahorariComponent.vue)
+:::
+
+
+### Afegix guàrdies
+
+En aquest element a la part dreta están tots els assessors. Per a afegir una guàrdia agafes i arrastres l'assessor al dia de guàrdia que li pertoca. Una vegada fas açò el seu horari també s'actualitzarà i se li enviarà un mail amb la informació. Si vols esborrar una guàrdia ja afegida simplement fas click sobre la guàrdia i s'esborrarà. 
+
+![Afegir guàrdies](img/afegixguardies/principal.png){ height=200px }
+
+Els elements estàn sincronitzats amb els diferents assessors a través d'un websocket, per tant si mentre s'estàn posant guàrdies un assessor l'esborra s'actualitzarà automàticament.
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Afegir guàrdies](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/CalendarComponent.vue)
+:::
+
+
+### Filtra centres 
+
+Es pot veure que apareix un llistat de tots el centres del CEFIRE. Tens un camp de busca per a filtrar segons el que necessites. A més, pots reduir el número de centres que es veuen per pàgina. 
+
+![Filtra centres](img/centres/principal.png)
+
+Aquest element ha sofert diverses modificacions ja que en principi es va decidir utilitzar un component per a crear la taula, però finalment s'ha dissenyat tota amb un component de vue.
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Centres](https://github.com/alviboi/projecte_ceedcv/tree/main/cefire/resources/js/components/Centres)
+:::
+
+### Estadística personal
+
+Disposem d'un apartat on es pot consultar una breu estadísitica personal per a veure les hores realitzades. Tot i que no pot resultar molt útil quan estiga habilitat el fitxatge per dies, quan es fitxa per hores resulta extremadament útil.
+
+Per defecte et trau les hores realitzades durant el mes present i les que feres tot el mes passat, pot escollir el rang de dades que vols calcular.
+
+![Estadística personal](img/personalrep.png)
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Estadístiques](https://github.com/alviboi/projecte_ceedcv/tree/main/cefire/resources/js/components/Reports)
+:::
+
+### Llistat permisos
+
+Els administradors tindran accés a a un apartat on podran comprovar que els permisos pujats són correctes. Algunes vegades es posa el permís sense pujar l'arxiu, i després s'obliden de pujar el justificant. Es per això que es pot fer una busca d'aquells assessors que encara no tenen pujat el justificant. Sempre ve indicat amb una icona que indica que no té l'arxiu pujat.
+
+Si es fa click sobre la icona de l'arxiu es descarregarà el permís pujat per a poder ser comprovat.
+
+![Llistat permisos](img/llistatperm.png)
+
+Una de les principals modificacions d'aquest element respecte a la versió pilot es l'ús d'arxius privat, l'arxiu ve en la resposta a la petició, no existeix cap accés a través del navegador per a baixa l'arxiu.
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[LlistatpermisosComponent](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/LlistatpermisosComponent.vue)
+:::
+
+### Configuració
+
+Per accedir a la pàgina de configuració fem click al següent menú:
+
+![Configuració de l'aplicació](img/config/menu.png)
+
+Hi han 3 apartats de configuració. Per a importar usuari de LDAP, per a configurar el fitxatge per hores que hem comentat abans i per a habilitar el registre d'assessors. Aquesta última opció habilitat el registre d'assessors (normalment a principi de cada curs) per a que puguen inscriure's en l'aplicació.
+
+![Configuració de l'aplicació](img/config/principal.png)
+
+Per a poder importar usuaris d'un LDAP cal que emplenes la IP i el usuari netadmin d'un servidor LliureX. Els usuaris que vullguen importar han de tenir el correu electrònic com el seu id, sinó no donarà l'opció d'importar-los.
+
+![Configuració de l'aplicació](img/config/ldap1.png)
+
+Una vegada li donem a importar ens apareixerà un llistat amb tots el usuaris que es volen importar, els seleccionarem i li donarem a importar.
+
+![Configuració de l'aplicació](img/config/ldap2.png)
+
+Una vegada importats ens apareixerà un missatge que ens confirmarà l'èxit de l'operació.
+
+![Configuració de l'aplicació](img/config/ldap3.png)
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[ConfiguracioComponent](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/ConfiguracioComponent.vue)
+:::
+
+### Altres elements
+
+S'han habilitat altres elements per a facilitar la gestió general de la plataforma:
+
+* Es poden enviar missatges entre els diferents assessors per a avisar de qualsevol tema.
+* Es pot fet un bolcat de les dades de la base de dades per a certificar els elements quan es fa un debug.
+* Hi ha un apartat per filtrar centres directament amb el teu nom d'assessor.
+* Pots editar les dades del teu perfil
+* I els administradors poden editar les dades de tots el assessors i esborrar-los.
+
+:::tip
+Podem consultar el codi d'aquest element ací: 
+[Control assessors](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/ControlassComponent.vue),
+[Dades Personals](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/DadespersonalsComponent.vue),
+[Edita el perfil](https://github.com/alviboi/projecte_ceedcv/blob/main/cefire/resources/js/components/EditaperfilComponent.vue),
+[Missatges](https://github.com/alviboi/projecte_ceedcv/tree/main/cefire/resources/js/components/missatges)
+:::
+
+# Fase de desplegament
+
+El desplegament de l'aplicació l'hem realitzar dues vegades. En un primer moment ens ha servit per a poder comprovar el correcte funcionament de l'aplicació en un entorn. Aquest desplegament ens permetrà:
+
+* Continuar amb el desenvolupament de l'aplicació al nostre entorn de treball.
+* Poder fer les actualitzacions de manera immediata al CEFIRE.
+* Tindre un espai controlat que ens permetrà evitar errors de configuració
+
+Per a desplegar l'aplicació les passes han sigut les següents:
+
+1.- Clonar el repositori
+
+2.- Crear les imatges necessàries amb docker
+
+3.- Crear la base de dades
+
+```
+php artisan migrate:refresh
+```
+5.- Copiar els usuaris. Ha sigut necessari canviar el id (canviar el nom d'una columna)
+
+4.- Importar les dades amb el script creat
+
+6.- Copiar les dades de centres, s'ha exportat, canviat el nom de l'assessor pel codi e importar les dades.
+
+7.- Instal·lar tots els paquets necessaris amb **composer update** y **npm install**.
+
+8.- Desplegar l'aplicació en laravel: **npm run prod**
+
+Per a facilitar l'arrancada de l'aplicació s'ha creat un arxiu: **/etc/systemd/docker-compose-cefire.service** per a poder arrancar el sistema com un servei. El contingut de l'arxiu és:
+
+
+```bash
+[Unit]
+Description=docker-compose-cefire
+Requires=docker.service network-online.target
+After=docker.service network-online.target
+[Service]
+WorkingDirectory=/home/lliurex/laradock
+Type=simple
+TimeoutStartSec=1min
+ExecStart=/usr/bin/docker-compose --env-file /home/lliurex/laradock/.env -f /home/lliurex/laradock/production-docker-compose.yml up nginx mysql phpmyadmin 
+ExecStop=/usr/bin/docker-compose down
+[Install]
+WantedBy=multi-user.target
+```
+
+![Servei de l'aplicació](img/service.png)
+
+Finalment l'habilitem per a que arranque amb el sistema:
+
+```
+sudo systemctl enable docker-compose-cefire
+```
+
+Ara cada vegada que vullguem actualitzar el sistema només ens cal fer un **git pull** per a que s'actualitze. Cal llevar els arxius compilats per laravel per a que sincronitzen amb el repositori (per exemple public/js/app.js i els logs que sempre aniran canviant). Cada vegada que es faja una actualització cal tornar a arrancar **npm run prod**
+
+# Conclusions
+
+L'aplicació del fitxatges del Cefire a dia d'avui està en marxa i està preparada per a fer el salt a un sistema més efectiu que respecte la normativa vigent en la qual es regixen la majoria d'empreses privades. El desplegament del mateix es fa amb un simple click, i el disseny del dispositiu de fitxatge està ja preparat per a poder funcionar amb el prototip, encara que el més efectiu seria creat una PCB per a enssamblar-la correctament.
+
+Cal dir que al projecte he tractat d'utilitzar la màxima quantitat de ferramentes possibles que no he pogut veure al cicle. Entenc que part del projecte és continuar amb la teua formació, i per això una ferramenta que a penes havia vist de passada com **laradock** m'ha servit de punt de partida per a familiaritzar-me més amb ella i poder veure tot el potencial que dóna, és immens. El nivell de facilitat per a desplegar, instal·lar i adequar una aplicació és pràcticament perfecte. Ja porta integrades totes les ferramentes que es poden necessitar a l'hora de fer pràcticament qualsevol tipus de projecte orientat a les aplicacions web.
+
+Per posar un contra, podem parlar de la documentació de laradock, que tot i que no és nombrosa i no trobes mai la sol·lució exacta, podem dir que hi ha una gran comunitat darrere que manté el framework i resol ràpidament tots els teus dubtes. És una veritable llàstima que no s'haja insistit més en ferramentes com aquesta que pràcticament et faciliten la vida.
+
+Altres ferramentes que he tractat d'utilitzar han sigut vue.js (que he vist en DIW sorprenentment), tractant de realitzar totes les parts amb aquesta llibreria, fugint de les sol·lucions que aporta **jquery**, és per això que no he utilitzat jquery en cap moment. Això sí, he utilitzat uikit fugint de bootstrap, ja que un projecte com aquest necessitaria més hores per a poder crear tota la casuística que ha aparegut, i uikit ha facilitat moltes de les parts.
 
 # Bibliografia i referències
 
