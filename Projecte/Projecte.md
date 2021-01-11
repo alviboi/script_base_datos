@@ -28,8 +28,12 @@ pandoc-latex-environment:
 
 \newpage
 \vspace*{\fill}
-![Esquema de la xarxa del cefire](img/cc.png)
-Aquest treball així com el codi que apareix en ell està subjecte a una llicència creative commons que permet la seua difusió ús comercial reconeguent sempre l'autoria del seu creador.
+
+![](img/cc.png){ height=50px }
+
+Aquest treball així com el codi que apareix en ell està subjecte a una llicència creative commons que permet la seua difusió ús comercial reconeguent sempre l'autoria del seu creador. Aquest document es troba per a poder ser modificat al següent repositori de github:
+
+[https://github.com/alviboi/script_base_datos/tree/main/Projecte](https://github.com/alviboi/script_base_datos/tree/main/Projecte)
 \newpage
 
 
