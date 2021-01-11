@@ -165,7 +165,7 @@ La instal·lació del Proxmox i preparació de les màquines virtuals s'ha fet r
 Estem a l'espera de rebre un altra servidor per a poder muntar un cluster amb dos ordinadors
 :::
 
-# Realització del projecte pilot del programa pilot
+# Realització de l'aplicació pilot
 
 El projecte pilot es va realitzar en aproximadament 15 dies mantenint les mateixes característiques que l'aplicació anterior. S'afegiren altres característiques com:
 
@@ -177,8 +177,10 @@ El projecte pilot es va realitzar en aproximadament 15 dies mantenint les mateix
 Aquí podem veure algunes captures de pantalla de l'aplicació:
 
 ![Aplicació pilot - fitxar](img/pilot/1.png)
-![Aplicació pilot - cercar](img/pilot/2.png)
-![Aplicació pilot - guàrdies](img/pilot/3.png)
+
+![Aplicació pilot - cercar](img/pilot/2.png){ height=150px }
+
+![Aplicació pilot - guàrdies](img/pilot/3.png){ height=150px }
 
 Es va realitzar amb laradock per a provar l'usabilitat de la ferramentes davant un entorn virtualitzat. A més donà un feedback dels elements que els assessors trobaven a faltar, cosa que ens va permetre adequar l'aplicació a l'usuari final.
 
@@ -238,7 +240,7 @@ A un disseny més el·laborat que ens dona un major control sobre les dades:
 ![Disseny de la base de dades de l'aplicació](img/bd/bd2.png)
 
 :::note
-Per a crear la base de dades s'ha utilitzat la feramenta de php **artisan** migrate de manera que sempre que es fan modificacions sobre alguna taula amb un simple comandament com ***php artisan migrate** queda tot sincronitzat.
+Per a crear la base de dades s'ha utilitzat la feramenta de php **artisan** migrate de manera que sempre que es fan modificacions sobre alguna taula amb un simple comandament com **php artisan migrate** queda tot sincronitzat.
 :::
 
 \awesomebox[violet]{2pt}{\faGithub}{violet}{El script és importa.py que es troba al repositori: https://github.com/alviboi/script\_base\_datos }
