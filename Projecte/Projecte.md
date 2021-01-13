@@ -51,6 +51,12 @@ A més es va demanar estudiar la possibilitat de portar un control d'assignació
 Calia muntar el model de centre de LliureX a l'Aula d'informàtica, que poguera canviar de xarxa entre la xarxa d'aules i la de secretaria per a poder fer formació específica per a Assessors.
 Des del Servei de Formació del professorat es demana muntar la plataforma dspace per a fer proves.
 
+## Possibles solucions
+
+En l'actualitat existeixen nombroses aplicacions que permeten un sistema de fitxatges, però ha sigut molt complicat trobar-en una que siga opensource per a poder adaptar-se a la realitat del CEFIRE i les més configurables que són molt completes són de pagament.
+
+Aquestes sol·lucions no resulten viable i més quan van a emmagatzemar dades personals de funcionaris de l'Administració. Totes les dades han d'estar en servidors propietat de Conselleria.
+
 ## Proposta de realització
 
 Per a la realització del projecte es canviarà el servidor per un Proxmox que permetrà allotjar diferents màquines. Entre altres es plategen les següents:
@@ -88,7 +94,9 @@ Alguns dels objectius que es presenten en aquest projecte han de realitzar-se am
 :::important
 És important tenir en compte el lloc on es va a utilitzar el projecte. El disseny del mateix s'ha plantejat en funció del lloc de treball de l'assessor de cefire que disposa d'un Sistema Operatiu amb un LliureX 16 (Ubuntu Xenial) instal·lat com a mínim (normalment porten LliureX 19 (Ubuntu Bionic)). El monitor presenta una resolució de 1920x1080.
 
+
 Tot i això i donat que encara hi han assessors que utilitzen dos monitors, un d'ells amb una resolució màxima de 1024x768, s'ha tingut en compte que l'aplicació puga adaptar-se a resolucions més baixes sense que els elements queden deformats. Es pot fer la consulta també amb el mòbil però no és usable.
+
 
 S'utilitzaran elements com desplegables amb hover o drag and drop que no estan habilitats als navegadors dels mòbils.
 :::
@@ -99,6 +107,31 @@ Per a desenvolupar el projecte, en primer lloc cal que planifiquem el temps que 
 Posada a punt de la xarxa del CEFIRE: En aquest punt posem a punt la xarxa del CEFIRE, basant-nos en el següent esquema:
 
 ![Esquema de la xarxa del cefire](img/Diagrama_cefire.png) 
+
+## Estudi de les possibles tecnologies a utilitzar
+
+Donat el escàs temps ( a penes 15 dies ) per a dotar d'una solució immediata al centre es varen estudiar diverses opcions:
+
+* Crear plataforma amb PHP com la que ja hi havia abans, o amb algun framework conegut com slim o symphony
+* NodeJS per a crear una aplicació pròpia de fitxatges
+* Python amb flask o django, python és un programari fàcilment escalable i té nombroses llibreries
+* Una solució integrada com laradock
+
+Cadascuna de les opcions presenta nombrosos avantatges però laradock presenta una opció que permet la portabilitat íntegra de tot l'entorn a qualsevol servidor, ja que docker-compose a penes ha presentat problemes de portabilitat. A més és fàcilment escalable, com s'ha demostrat al llarg de la realització del projecte al tindre que habilitar les cues per als mails o events.
+
+La posada en marxa del sistema es fa en minuts a través dels arxius .env, i el gestor de paqueteria composer i npm faciliten enormement la tasca d'integrar noves llibreries . Cal dir que python amb pip és un ferramenta molt potent per a gestionar les llibreries.
+
+Finalment, flask porta integrat el seu propi ORM al mateix temps que Flask amb sqlALchemy, així mateix Laravel porta ja integrat Eloquent que facilita enormement les consultes sql i té una corba d'aprenentatge molt reduïda.
+
+## Seguretat a tenir en compte
+
+A més de tot això Laravel porta inclosos sistemes de seguretat fàcilment implementables com:
+
+* csrf: Cross-site request forgeries
+* sql injection d'eloquent (sempre i quan s'eviten les consultes raw)
+* integració de ssl ridículament fàccil: al venir ja intengrat el docker de nginx, simplement descomentant unes línies del Dockerfile aconseguim implmentar la pàgina amb certificat.
+* Hem utilitzat un self-sign certificate, la posada en marxa es de escasos minuts.
+* El tenir un arxiu .env en laravel fa que es puguen excloure les dades sensibles dels repositoris.
 
 # Planificació amb projectlibre
 
@@ -206,13 +239,32 @@ En el nostre cas ha sigut determinant decantar-nos per aquesta opció el fet que
 
 Finalment i després de provar varies plaques s'ha realitzat el següent disseny:
 
-![Esquema de la xarxa del cefire](img/aparell.png)
+![Esquema del dispositiu de fitxatges](img/aparell.png)
 
 El resultat del dispositiu es pot descarregar i comprovar el seu funcionament des del següent repositori de github
 
-\awesomebox[violet]{2pt}{\faGithub}{violet}{El repositori d'aquest element és: https://github.com/alviboi/arduino\_lector\_rfid }
+\awesomebox[violet]{2pt}{\faGithub}{violet}{Al repositori d'aquest element podem trobar l'esquema de l'aparell per a editar amb fritzing, el firmware i el trigger que s'ha d'integrar en la base de dades: https://github.com/alviboi/arduino\_lector\_rfid }
 
 Si comproveu el codi podeu veure que escriu directament directament sobre una taula de la base de dades que activa un trigger per a actualitzar la taula de fitxar. El dispositiu disposa d'un portal per a poder configurar els paràmetres de la base de dades i assignar-li una ip.
+
+## Seguretat
+
+Donades les limitades capacitats de procesament del dispositiu s'han implementat algunes messures de seguretat al codi del dispositiu:
+
+* La taula queda aïllada de la resta dels elements i l'usuari que utlitza l'aparell només té accés a eixa taula, és el trigguer qui escriu directament a la taula cefire
+* El dispositiu només permet tenir una conenxió simultània, per tant només es podrà configurar des d'un dispositiu
+* El form d'actualització de dades té un token amb un número aleatori creat a l'aire
+
+```c++
+  token_int = random(1, 1000000000);
+  
+  s = String(token_int);
+
+/* S'afegix dins del form per a fer la petició */
+
+ "<div><input type=\"token\" name=\"token\" value=\"" + s + "\" hidden><\/div>"
+ ```
+Quan li arriva la petició al mateix sistema, s'executa una funció de c++ que és la que escriu directament a la base de dades.
 
 # Realització del producte final
 
@@ -533,6 +585,23 @@ sudo systemctl enable docker-compose-cefire
 
 Ara cada vegada que vullguem actualitzar el sistema només ens cal fer un **git pull** per a que s'actualitze. Cal llevar els arxius compilats per laravel per a que sincronitzen amb el repositori (per exemple public/js/app.js i els logs que sempre aniran canviant). Cada vegada que es faja una actualització cal tornar a arrancar **npm run prod**
 
+# Futures actualitzacions
+
+Uns dels principals motius pels quals s'ha decantat per una solució de creació pròpia és el fet de poder tenir un complet control sobre la plataforma. A més, molts cefires careixen d'una solució per a aquest problema, seria una solució fàcilment implementable a tots els cefires.
+
+Dins de les futures millores pausibles dins de l'aplicació estarien:
+
+* Connexió directa al sistema d'autentificació de funcionaris NAUSICAA per a poder realizar la importació de tots els assessors del CEFIRE en un sol click.
+* Estadístiques generals de tots els assessors.
+* Quan s'habilite el fitxatge per hores es podrien plantejar patrons de conducta per a preveure les hores que una persona va a estar disponible al CEFIRE.
+* Sistema centralitzat per a importar les dades de tots els fitxatges de tots els CEFIRES cada dia
+* A nivell d'ususari, el fet de tenir dia a dia 
+* Exportació de documents pdf del temps que s'ha estat al CEFIRE
+* Habilitar registre per certificat
+* Creació d'un paquet deb per a la instal·lació de l'aplicació
+
+Tots aquest element es volen implementar en qualsevol moment, ja que la premura del temps ha només ha fet que es centrar la feina en els elements veritablement indispensables.
+
 # Conclusions
 
 L'aplicació del fitxatges del Cefire a dia d'avui està en marxa i està preparada per a fer el salt a un sistema més efectiu que respecte la normativa vigent en la qual es regixen la majoria d'empreses privades. El desplegament del mateix es fa amb un simple click, i el disseny del dispositiu de fitxatge està ja preparat per a poder funcionar amb el prototip, encara que el més efectiu seria creat una PCB per a enssamblar-la correctament.
@@ -547,5 +616,8 @@ Altres ferramentes que he tractat d'utilitzar han sigut vue.js (que he vist en D
 
 (@) https://getuikit.com/docs/introduction
 (@) https://laravel.com/docs/8.x/
+(@) https://www.npmjs.com/package/vue-simple-calendar
+(@) https://laradock.io/documentation/
+
 
 
