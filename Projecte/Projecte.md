@@ -114,23 +114,23 @@ Donat el escàs temps ( a penes 15 dies ) per a dotar d'una solució immediata a
 
 * Crear plataforma amb PHP com la que ja hi havia abans, o amb algun framework conegut com slim o symphony
 * NodeJS per a crear una aplicació pròpia de fitxatges
-* Python amb flask o django, python és un programari fàcilment escalable i té nombroses llibreries
+* Python amb flask o django, python és un programari fàcilment escalable i té nombroses biblioteques
 * Una solució integrada com laradock
 
 Cadascuna de les opcions presenta nombrosos avantatges però laradock presenta una opció que permet la portabilitat íntegra de tot l'entorn a qualsevol servidor, ja que docker-compose a penes ha presentat problemes de portabilitat. A més és fàcilment escalable, com s'ha demostrat al llarg de la realització del projecte al tindre que habilitar les cues per als mails o events.
 
-La posada en marxa del sistema es fa en minuts a través dels arxius .env, i el gestor de paqueteria composer i npm faciliten enormement la tasca d'integrar noves llibreries . Cal dir que python amb pip és un ferramenta molt potent per a gestionar les llibreries.
+La posada en marxa del sistema es fa en minuts a través dels arxius .env, i el gestor de paqueteria composer i npm faciliten enormement la tasca d'integrar noves biblioteques . Cal dir que python amb pip és un ferramenta molt potent per a gestionar les biblioteques.
 
-Finalment, flask porta integrat el seu propi ORM al mateix temps que Flask amb sqlALchemy, així mateix Laravel porta ja integrat Eloquent que facilita enormement les consultes sql i té una corba d'aprenentatge molt reduïda.
+Finalment, flask porta integrat el seu propi ORM al mateix temps que Flask amb sqlALchemy, així mateix Laravel porta ja integrat Eloquent que facilita enormement les consultes SQL i té una corba d'aprenentatge molt reduïda.
 
 ## Seguretat a tenir en compte
 
 A més de tot això Laravel porta inclosos sistemes de seguretat fàcilment implementables com:
 
-* csrf: Cross-site request forgeries
-* sql injection d'eloquent (sempre i quan s'eviten les consultes raw)
-* integració de ssl ridículament fàccil: al venir ja intengrat el docker de nginx, simplement descomentant unes línies del Dockerfile aconseguim implmentar la pàgina amb certificat.
-* Hem utilitzat un self-sign certificate, la posada en marxa es de escasos minuts.
+* CSRF: Cross-site request forgeries.
+* SQL injection d'eloquent (sempre i quan s'eviten les consultes raw).
+* Integració de ssl ridículament fàccil: al venir ja integrat el docker de nginx, simplement descomentant unes línies del Dockerfile aconseguim implementar la pàgina amb certificat.
+* Hem utilitzat un self-sign certificate, la posada en marxa es de escassos minuts.
 * El tenir un arxiu .env en laravel fa que es puguen excloure les dades sensibles dels repositoris.
 
 # Planificació amb projectlibre
@@ -138,8 +138,8 @@ A més de tot això Laravel porta inclosos sistemes de seguretat fàcilment impl
 El primer que anem a fer és definir totes les tasques a realitzar. Així anem fent un seguiment. Les tasques que es plantegen per a realitzar el projecte són les següents:
 
 * Instal·lació i configuració dels switchs i cablejat.
-* Instal·lació i configuració de proxmox
-* Adequació dels ordinadors de l’Assessoria
+* Instal·lació i configuració de proxmox.
+* Adequació dels ordinadors de l'assessoria.
 * Configuració i instal·lació de Servidor LliureX.
 * Migració servidor NFS.
 * Configuració i instal·lació de Servidor de Serveis.
@@ -147,29 +147,29 @@ El primer que anem a fer és definir totes les tasques a realitzar. Així anem f
 
 Realització de prototip de programa de fitxatges.
 
-* Posada a punt del laradock
-* Importació de la base de dades
-* Esbós de la plataforma
-* Creació de calendari
-* Creació d’apartat de guàrdies
-* Creació d’apartat de permisos
-* Creació d’apartat d’advertències
+* Posada a punt del laradock.
+* Importació de la base de dades.
+* Esbós de la plataforma.
+* Creació de calendari.
+* Creació d’apartat de guàrdies.
+* Creació d’apartat de permisos.
+* Creació d’apartat d’advertències.
 
 Realització de prototip de dispositiu per a fitxar amb targetes/mòbil NFC
 
 * Estudi de les diferents plataformes per a la realització del hardware.
-* Investigació dels perifèrics, funcionament, llibreries i documentar*se al respecte.
-* Disseny i muntatge del prototip
-* Testeig del hardware
-* Programació del firmware del prototip
-* Testeig del software
-* Solució d’errades
+* Investigació dels perifèrics, funcionament, biblioteques i documentar*se al respecte.
+* Disseny i muntatge del prototip.
+* Testeig del hardware.
+* Programació del firmware del prototip.
+* Testeig del software.
+* Solució d’errades.
 
 Creació d’script de migració de les dades a nova base de dades
 
-* Anàlisis de la estrutura
-* Disseny de la base de dades
-* Creació del script amb python
+* Anàlisis de la estrutura.
+* Disseny de la base de dades.
+* Creació del script amb python.
 
 La planificació del projecte queda de la següent manera:
 
@@ -202,10 +202,10 @@ Estem a l'espera de rebre un altra servidor per a poder muntar un cluster amb do
 
 El projecte pilot es va realitzar en aproximadament 15 dies mantenint les mateixes característiques que l'aplicació anterior. S'afegiren altres característiques com:
 
-* Poder afegir guàrdies per part d'un administrador
-* Enviar advertències
-* Pujar permís
-* Altres xicotetes millores
+* Poder afegir guàrdies per part d'un administrador.
+* Enviar advertències.
+* Pujar permís.
+* Altres xicotetes millores.
 
 Aquí podem veure algunes captures de pantalla de l'aplicació:
 
@@ -226,7 +226,7 @@ La plataforma utilitzada per a programar el dispositiu ha sigut **Arduino**, amb
 * Processador intern de 32 bits a 80 MHz i pot pujar fins a 160Mhz.
 * 80K de DRAM.
 * 1 Mb de memòria Flash.
-* Memòria Flash gestionable desde llibreria EEPROM de 512 bytes. 
+* Memòria Flash gestionable desde biblioteca EEPROM de 512 bytes. 
 * Stack TCPIP WIFI a 2.4 Ghz.
 * 30 Metres d'abast teòric.
 * Full TCP/IP stack inclòs.
@@ -246,6 +246,8 @@ El resultat del dispositiu es pot descarregar i comprovar el seu funcionament de
 \awesomebox[violet]{2pt}{\faGithub}{violet}{Al repositori d'aquest element podem trobar l'esquema de l'aparell per a editar amb fritzing, el firmware i el trigger que s'ha d'integrar en la base de dades: https://github.com/alviboi/arduino\_lector\_rfid }
 
 Si comproveu el codi podeu veure que escriu directament directament sobre una taula de la base de dades que activa un trigger per a actualitzar la taula de fitxar. El dispositiu disposa d'un portal per a poder configurar els paràmetres de la base de dades i assignar-li una ip.
+
+Al repositori es pot trobar l'esquema i codi (lector_rfid_teclat.ino) d'un perifèric lector que llig directament el número de sèrie. D'aquesta manera al emplenar les dades d'un assessor es pot fer ús del dispositiu sense necessitat de recòrrer a aparells de tercers.
 
 ## Seguretat
 
@@ -310,11 +312,11 @@ L'aplicació es programarà íntegrament en **laradock** ja que ens permet tindr
 | workspace | Espai de treball |
 | php-fpm | Entorn PHP necessari per a laravel |
 
-S'han modificat els Dockerfiles de nginx per a permetre la connexió ssl amb un certificat autogenerat, el php-worker per a poder configurar el inici de les cues. A més, s'ha hagut de modificar el Dockerfile de php-fm per a poder habilitar les llibreries LDAP de php.
+S'han modificat els Dockerfiles de nginx per a permetre la connexió ssl amb un certificat autogenerat, el php-worker per a poder configurar el inici de les cues. A més, s'ha hagut de modificar el Dockerfile de php-fm per a poder habilitar les biblioteques LDAP de php.
 
 S'han configurat l'arxiu .env per a poder utilitzar un compte de gmail per a poder enviar correus electrònics.
 
-Quan hem programat l'aplicació s'ha fet ús de les següents llibreries:
+Quan hem programat l'aplicació s'ha fet ús de les següents biblioteques:
 
 Per PHP:
 
@@ -362,7 +364,7 @@ El codi principal podem trobar-lo a les següents carpetes:
 | /cefire/config | Arxius de configuració per a adequar l'aplicació |
 
 :::info
-S'ha tractat d'utilitzar totes les parts integrades dins de laravel per això s'ha fet ús del OMR eloquent que facilita les peticions a la base de dades i ja porta implementades messures de seguretat per a evitar el sql injection.
+S'ha tractat d'utilitzar totes les parts integrades dins de laravel per això s'ha fet ús del OMR eloquent que facilita les peticions a la base de dades i ja porta implementades messures de seguretat per a evitar el SQL injection.
 :::
 
 ### Element Horari
@@ -611,7 +613,7 @@ Cal dir que al projecte he tractat d'utilitzar la màxima quantitat de ferrament
 
 Per posar un contra, podem parlar de la documentació de laradock, que tot i que no és nombrosa i no trobes mai la sol·lució exacta, podem dir que hi ha una gran comunitat darrere que manté el framework i resol ràpidament tots els teus dubtes. És una veritable llàstima que no s'haja insistit més en ferramentes com aquesta que pràcticament et faciliten la vida.
 
-Altres ferramentes que he tractat d'utilitzar han sigut vue.js (que he vist en DIW sorprenentment), tractant de realitzar totes les parts amb aquesta llibreria, fugint de les sol·lucions que aporta **jquery**, és per això que no he utilitzat jquery en cap moment. Això sí, he utilitzat uikit fugint de bootstrap, ja que un projecte com aquest necessitaria més hores per a poder crear tota la casuística que ha aparegut, i uikit ha facilitat moltes de les parts.
+Altres ferramentes que he tractat d'utilitzar han sigut vue.js (que he vist en DIW sorprenentment), tractant de realitzar totes les parts amb aquesta biblioteca, fugint de les sol·lucions que aporta **jquery**, és per això que no he utilitzat jquery en cap moment. Això sí, he utilitzat uikit fugint de bootstrap, ja que un projecte com aquest necessitaria més hores per a poder crear tota la casuística que ha aparegut, i uikit ha facilitat moltes de les parts.
 
 # Bibliografia i referències
 
