@@ -26,7 +26,7 @@ pandoc-latex-environment:
 
 <!-- \awesomebox[violet]{2pt}{\faRocket}{violet}{Lorem ipsum…} -->
 
-\newpage
+
 \vspace*{\fill}
 
 ![](img/cc.png){ height=50px }
@@ -36,6 +36,27 @@ Aquest treball així com el codi que apareix en ell està subjecte a una llicèn
 [https://github.com/alviboi/script_base_datos/tree/main/Projecte](https://github.com/alviboi/script_base_datos/tree/main/Projecte)
 \newpage
 
+**Resumen del projecte**
+
+El projecte consisteix en la realització d'un sistema de gestió de fitxatges per als CEFIREs. Aquest sistema ha vingut donat per la necessitat de tenir una eina que permeta conèixer en quin lloc es troba cada assessor al llarg de la setmana. A banda d'això permetrà gestionar d'una manera molt més eficient les guàrdies on s'ha d'estar al CEFIRE, les compensacions, el cursos que té cadascú per a poder assignar guàrdies i les baixes.
+El sistema s'ha creat fruit de la necessitat al desaparèixer linucentres sense cap tipus d'avís d'una setmana a altra. 
+
+Donat que un dels requeriments és que cap tipus de dades sobre funcionariat de la gva pot estar emmagatzemat en servidors de Conselleria s'ha decidit per el muntatge d'un sistema per a facilitar la gestió de la xarxa i posar en funcionament projectes pilots que estaven estancats donada la falta de coneixements de l'assessoria de l'àmbit TIC sobre aquest tema concret. És el cas d'un repositori de documents gestionat amb DSpace.
+
+Tanmateix s'ha tingut en compte les futures restriccions que poden existir en la legislació aplicable als centres de treball i s'ha habilitat el fitxatge per hores, per controlar el temps exacte que s'està al lloc de treball i s'ha fet el disseny que podria implementar-se en un futur d'aparells de fitxatge per NFC.
+
+----
+
+**Abstract**
+
+In this project we are going to build a system of management of staff checkings for the CEFIREs. This system come from the necessity to have a tool that allow to know at which place each advisor is along the week. Apart from this, it will permit the management in a more efficient way the guards when the advisors have to be at CEFIRE, the compensations and the courses that each one has, assign guards easily and manage the sick leaves.
+
+The system has been created due of the necessity when linucentres cease its activities without any type of notice.
+Thus, one of the requeriments is that any type of data of civil servants from the GVA had to be stored on servers of the Generalitat, thus the servers used to deploy the application have to be on an intranet so it has been design a network model that it would facilitate its management and it will allow new services for the CEFIRE such as DSpace, a repository of documents.
+
+In addition, it has been taken into account the future constraints that will probably exist in the current legislation in the work. So, it has been enabled in the application two different ways to work, checking by the time and freely, the first comes with a prototype of a device that allow checking in with NFC cards.
+
+\newpage
 
 # Introducció
 
@@ -49,7 +70,7 @@ Aquesta plataforma havia de preparar-se per a un futur control de fitxatges per 
 
 A més es va demanar estudiar la possibilitat de portar un control d'assignació dels centres que es duen des del CEFIRE territorial de València.
 Calia muntar el model de centre de LliureX a l'Aula d'informàtica, que poguera canviar de xarxa entre la xarxa d'aules i la de secretaria per a poder fer formació específica per a Assessors.
-Des del Servei de Formació del professorat es demana muntar la plataforma dspace per a fer proves.
+Des del Servei de Formació del professorat es demana muntar la plataforma DSpace per a fer proves.
 
 ## Possibles solucions
 
@@ -65,11 +86,11 @@ Per a la realització del projecte es canviarà el servidor per un Proxmox que p
 * Servidor de l'aula d'informàtica.
 * Servidor web de la plataforma de fitxatges.
 * Servidor d'altres serveis.
-* Servidor DSPACE
+* Servidor DSpace
 
 Per a muntar la plataforma de fixatges s'utilitzarà el framework **laradock**, ja que ens permetrà realitzar el desplegaments de manera senzilla ja que podrem importar directament el codi des de github.
 Donat que s'ha de començar a fitxar des del començament del curs s'implementarà un prototip utilitzable des del primer moment. Aquest prototip mantindrà la base de dades d'existent, ja que es disposava d'una còpia de seguretat.
-Un dels problemes principals de la base de dades és que resulta molt complex gestionar les dades, i les coses que s'han demanat al prototip resultaven complexes i difícils de realitzar. Es planteja redissenyar la base de dades per a que es faja més fàcil de gestionar i realitzar un script amb python per a fer la importació de les dades.
+Un dels problemes principals de la base de dades és que resulta molt complex gestionar les dades, i les coses que s'han demanat al prototip resultaven complexes i difícils de realitzar. Es planteja redissenyar la base de dades per a que es faja més fàcil de gestionar i realitzar un script amb Python per a fer la importació de les dades.
 Una vegada acabat el prototip es realitzarà la plataforma final, en aquesta fase es plantejarà:
 
 * Una adaptació de la base de dades que siga escalable quan canvien les circumstàncies sobre fitxatges.
@@ -103,10 +124,10 @@ S'utilitzaran elements com desplegables amb hover o drag and drop que no estan h
 
 # Desenvolupament i planificació
 
-Per a desenvolupar el projecte, en primer lloc cal que planifiquem el temps que podem dedicar a cadascun dels objectius. Realitzarem un projecte amb el **Projectlibre** per poder controlar el temps dedicat al projecte. Les tasques a realitzar seran:
+Per a desenvolupar el projecte, en primer lloc cal que planifiquem el temps que podem dedicar a cadascun dels objectius. Realitzarem un projecte amb el **ProjectLibre** per poder controlar el temps dedicat al projecte. Les tasques a realitzar seran:
 Posada a punt de la xarxa del CEFIRE: En aquest punt posem a punt la xarxa del CEFIRE, basant-nos en el següent esquema:
 
-![Esquema de la xarxa del cefire](img/Diagrama_cefire.png) 
+![Esquema de la xarxa del CEFIRE](img/Diagrama_cefire.png) 
 
 ## Estudi de les possibles tecnologies a utilitzar
 
@@ -114,18 +135,18 @@ Donat el escàs temps ( a penes 15 dies ) per a dotar d'una solució immediata a
 
 * Crear plataforma amb PHP com la que ja hi havia abans, o amb algun framework conegut com slim o symphony
 * NodeJS per a crear una aplicació pròpia de fitxatges
-* Python amb flask o django, python és un programari fàcilment escalable i té nombroses biblioteques
+* Python amb flask o django, Python és un programari fàcilment escalable i té nombroses biblioteques
 * Una solució integrada com laradock
 
 Cadascuna de les opcions presenta nombrosos avantatges però laradock presenta una opció que permet la portabilitat íntegra de tot l'entorn a qualsevol servidor, ja que docker-compose a penes ha presentat problemes de portabilitat. A més és fàcilment escalable, com s'ha demostrat al llarg de la realització del projecte al tindre que habilitar les cues per als mails o events.
 
-La posada en marxa del sistema es fa en minuts a través dels arxius .env, i el gestor de paqueteria composer i npm faciliten enormement la tasca d'integrar noves biblioteques . Cal dir que python amb pip és un ferramenta molt potent per a gestionar les biblioteques.
+La posada en marxa del sistema es fa en minuts a través dels arxius .env, i el gestor de paqueteria composer i npm faciliten enormement la tasca d'integrar noves biblioteques . Cal dir que Python amb pip és un ferramenta molt potent per a gestionar les biblioteques.
 
 Finalment, flask porta integrat el seu propi ORM al mateix temps que Flask amb sqlALchemy, així mateix Laravel porta ja integrat Eloquent que facilita enormement les consultes SQL i té una corba d'aprenentatge molt reduïda.
 
-## Seguretat a tenir en compte
+## Requisits de seguretat
 
-A més de tot això Laravel porta inclosos sistemes de seguretat fàcilment implementables com:
+Un del requisits primordials és que el sistema siga segur i protegisca les dades privades. Laravel porta inclosos sistemes de seguretat fàcilment implementables com:
 
 * CSRF: Cross-site request forgeries.
 * SQL injection d'eloquent (sempre i quan s'eviten les consultes raw).
@@ -133,7 +154,7 @@ A més de tot això Laravel porta inclosos sistemes de seguretat fàcilment impl
 * Hem utilitzat un self-sign certificate, la posada en marxa es de escassos minuts.
 * El tenir un arxiu .env en laravel fa que es puguen excloure les dades sensibles dels repositoris.
 
-# Planificació amb projectlibre
+# Planificació amb ProjectLibre
 
 El primer que anem a fer és definir totes les tasques a realitzar. Així anem fent un seguiment. Les tasques que es plantegen per a realitzar el projecte són les següents:
 
@@ -169,7 +190,7 @@ Creació d’script de migració de les dades a nova base de dades
 
 * Anàlisis de la estrutura.
 * Disseny de la base de dades.
-* Creació del script amb python.
+* Creació del script amb Python.
 
 La planificació del projecte queda de la següent manera:
 
@@ -190,7 +211,7 @@ La instal·lació del Proxmox i preparació de les màquines virtuals s'ha fet r
 | ServidorWeb | Servidor d'aplicació pilot |
 | ServidorWeb2 | Servidor de l'aplicació definitiva |
 | Aula1SRV | Servidor del model de centre de l'aula d'informàtica |
-| dspace | Servidor de repositoris de materials: **prova pilot** |
+| DSpace | Servidor de repositoris de materials: **prova pilot** |
 
 ![Proxmox del CEFIRE](img/proxmox.png)
 
@@ -241,7 +262,7 @@ Finalment i després de provar varies plaques s'ha realitzat el següent disseny
 
 ![Esquema del dispositiu de fitxatges](img/aparell.png)
 
-El resultat del dispositiu es pot descarregar i comprovar el seu funcionament des del següent repositori de github
+El resultat del dispositiu es pot descarregar i comprovar el seu funcionament des del següent repositori de GitHub
 
 \awesomebox[violet]{2pt}{\faGithub}{violet}{Al repositori d'aquest element podem trobar l'esquema de l'aparell per a editar amb fritzing, el firmware i el trigger que s'ha d'integrar en la base de dades: https://github.com/alviboi/arduino\_lector\_rfid }
 
@@ -253,7 +274,7 @@ Al repositori es pot trobar l'esquema i codi (lector_rfid_teclat.ino) d'un perif
 
 Donades les limitades capacitats de procesament del dispositiu s'han implementat algunes messures de seguretat al codi del dispositiu:
 
-* La taula queda aïllada de la resta dels elements i l'usuari que utlitza l'aparell només té accés a eixa taula, és el trigguer qui escriu directament a la taula cefire
+* La taula queda aïllada de la resta dels elements i l'usuari que utlitza l'aparell només té accés a eixa taula, és el trigguer qui escriu directament a la taula CEFIRE
 * El dispositiu només permet tenir una conenxió simultània, per tant només es podrà configurar des d'un dispositiu
 * El form d'actualització de dades té un token amb un número aleatori creat a l'aire
 
@@ -532,6 +553,8 @@ Podem consultar el codi d'aquest element ací:
 
 # Fase de desplegament
 
+## Desplegament de l'aplicació CEFIRE HORARI
+
 El desplegament de l'aplicació l'hem realitzar dues vegades. En un primer moment ens ha servit per a poder comprovar el correcte funcionament de l'aplicació en un entorn. Aquest desplegament ens permetrà:
 
 * Continuar amb el desenvolupament de l'aplicació al nostre entorn de treball.
@@ -587,9 +610,75 @@ sudo systemctl enable docker-compose-cefire
 
 Ara cada vegada que vullguem actualitzar el sistema només ens cal fer un **git pull** per a que s'actualitze. Cal llevar els arxius compilats per laravel per a que sincronitzen amb el repositori (per exemple public/js/app.js i els logs que sempre aniran canviant). Cada vegada que es faja una actualització cal tornar a arrancar **npm run prod**
 
+## Desplegament d'aplicacions web
+
+Per al desplegament de les aplicacions s'han utilitzat servidors independents per a facilitar la seua gestió i la migració de la màquina virtual als diferents CEFIREs, ja que es tracta de projectes pilot.
+En el cas de DSpace s'ha de tenir en compte que es tracta d'una aplicació JAVA, és per això que abans que res s'ha de muntar servidor tomcat amb les espeficacions que pròpies de l'aplicació:
+
++ Java Development Kit (JDK)
+* PostgreSQL Database
+* DSpace Software
+* Apache Ant (Pure Java Build Tool)
+* Apache Maven (Apache Build Automation Tool for Java Projects)
+* Apache Tomcat (Web Server for hosting Dspace)
+
+El procediments s'ha simplificat de la següent manera:
+
+```
+adduser dspace
+usermod -G sudo dspace
+su - dspace
+sudo mkdir /dspace
+sudo chown dspace:dspace -R /dspace
+
+sudo apt install postgresql-client-common postgresql-client postgresql git maven ant openjdk-8-jdk tomcat8
+
+sudo update-alternatives --config java 
+//escollir el 8
+
+wget https://github.com/DSpace/DSpace/releases/download/dspace-6.3/dspace-6.3-src-release.tar.gz
+
+tar -xzf dspace-6.3-src-release.tar.gz
+
+sudo -u postgres createuser --username=postgres --no-superuser --pwprompt dspace
+sudo -u postgres createdb --username=postgres --owner=dspace -E=UNICODE dspace
+sudo -u postgres psql --username=postgres dspace -c "CREATE EXTENSION pgcrypto;"
+
+cd ./dspace-6.3-src-release
+
+cd ./dspace/config/
+cp local.cfg.EXAMPLE local.cfg
+nano local.cfg
+
+// Configurem els paràmetres, no de la app, url, etc...
+
+sudo mvn -U package
+cd dspace/target/dspace-installer && sudo ant fresh_install
+
+/dspace/bin/dspace create-administrator
+
+cp -r /dspace/webapps/* /var/lib/tomcat8/webapps/	
+
+sudo chown tomcat:tomcat /dspace/uploads
+mkdir /dspace/assetstore
+sudo chown tomcat:tomcat /dspace/
+
+cd $CATALINA_HOME/conf/tomcat-users.xml
+sudo nano tomcat-users.xml 
+```
+
+Afegim les següents línees:
+```
+  <role rolename="manager-gui" />
+  <user username="admin" password="admin" roles="manager-gui" />
+```
+
+
+JITSI i OwnCloud s'han desplegat amb els scripts exitents als servidors de LliureX 19 que simplifiquen enormement la tasca.
+
 # Futures actualitzacions
 
-Uns dels principals motius pels quals s'ha decantat per una solució de creació pròpia és el fet de poder tenir un complet control sobre la plataforma. A més, molts cefires careixen d'una solució per a aquest problema, seria una solució fàcilment implementable a tots els cefires.
+Uns dels principals motius pels quals s'ha decantat per una solució de creació pròpia és el fet de poder tenir un complet control sobre la plataforma. A més, molts CEFIREs careixen d'una solució per a aquest problema, seria una solució fàcilment implementable a tots els CEFIREs.
 
 Dins de les futures millores pausibles dins de l'aplicació estarien:
 
@@ -607,7 +696,7 @@ Tots aquest element es volen implementar en qualsevol moment, ja que la premura 
 
 # Conclusions
 
-L'aplicació del fitxatges del Cefire a dia d'avui està en marxa i està preparada per a fer el salt a un sistema més efectiu que respecte la normativa vigent en la qual es regixen la majoria d'empreses privades. El desplegament del mateix es fa amb un simple click, i el disseny del dispositiu de fitxatge està ja preparat per a poder funcionar amb el prototip, encara que el més efectiu seria creat una PCB per a enssamblar-la correctament.
+L'aplicació del fitxatges del CEFIRE a dia d'avui està en marxa i està preparada per a fer el salt a un sistema més efectiu que respecte la normativa vigent en la qual es regixen la majoria d'empreses privades. El desplegament del mateix es fa amb un simple click, i el disseny del dispositiu de fitxatge està ja preparat per a poder funcionar amb el prototip, encara que el més efectiu seria creat una PCB per a enssamblar-la correctament.
 
 Cal dir que al projecte he tractat d'utilitzar la màxima quantitat de ferramentes possibles que no he pogut veure al cicle. Entenc que part del projecte és continuar amb la teua formació, i per això una ferramenta que a penes havia vist de passada com **laradock** m'ha servit de punt de partida per a familiaritzar-me més amb ella i poder veure tot el potencial que dóna, és immens. El nivell de facilitat per a desplegar, instal·lar i adequar una aplicació és pràcticament perfecte. Ja porta integrades totes les ferramentes que es poden necessitar a l'hora de fer pràcticament qualsevol tipus de projecte orientat a les aplicacions web.
 
@@ -621,6 +710,7 @@ Altres ferramentes que he tractat d'utilitzar han sigut vue.js (que he vist en D
 (@) https://laravel.com/docs/8.x/
 (@) https://www.npmjs.com/package/vue-simple-calendar
 (@) https://laradock.io/documentation/
+(@) https://wiki.lyrasis.org/display/DSDOC6x/DSpace+6.x+Documentation
 
 
 
